@@ -153,6 +153,128 @@
             height: 500px;
         }
 
+        /* Chat UI (added) */
+        .chat-section {
+            margin-top: 30px;
+            background: #0b1020;
+            color: #fff;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .chat-header {
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .chat-title {
+            font-size: 20px;
+            color: #ffd36a;
+        }
+
+        .username-box {
+            display:flex;
+            gap:8px;
+            align-items:center;
+        }
+
+        .username-box input {
+            padding:6px 8px;
+            border-radius:6px;
+            border:1px solid #333;
+            background:#0f1724;
+            color:#fff;
+        }
+
+        .username-box button {
+            background:#1f6feb;
+            color:white;
+            border:none;
+            padding:6px 10px;
+            border-radius:6px;
+            cursor:pointer;
+        }
+
+        .messages {
+            height: 320px;
+            overflow-y: auto;
+            padding: 12px;
+            background: linear-gradient(180deg,#080a0f 0%, #09111a 100%);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .msg {
+            margin-bottom:10px;
+            display:flex;
+            gap:8px;
+            align-items:flex-start;
+        }
+
+        .msg .avatar {
+            width:36px;
+            height:36px;
+            border-radius:50%;
+            background:#2b3140;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:bold;
+            color:#fff;
+            flex-shrink:0;
+        }
+
+        .msg .bubble {
+            background: #0f1724;
+            padding:8px 10px;
+            border-radius:8px;
+            max-width:75%;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+        }
+
+        .msg .meta {
+            font-size:12px;
+            color:#9aa7c7;
+            margin-bottom:6px;
+        }
+
+        .chat-input {
+            display:flex;
+            gap:8px;
+            align-items:center;
+        }
+
+        .chat-input input[type="text"] {
+            flex:1;
+            padding:10px 12px;
+            border-radius:8px;
+            border:1px solid #233044;
+            background:#071024;
+            color:#fff;
+        }
+
+        .chat-input button {
+            padding:10px 14px;
+            border-radius:8px;
+            border:none;
+            background:#10b981;
+            color:#fff;
+            cursor:pointer;
+        }
+
+        .small-muted {
+            font-size:12px;color:#9aa7c7;margin-left:8px;
+        }
+
+        /* responsive */
+        @media (max-width:600px) {
+            .tradingview-widget-container { height: 300px; }
+            .messages { height: 220px; }
+        }
     </style>
 </head>
 <body>
@@ -230,6 +352,26 @@
         </div>
     </div>
 
+    <!-- Chat Section (added) -->
+    <div class="chat-section" id="chatSection">
+        <div class="chat-header">
+            <div class="chat-title">Chat Messenger</div>
+            <div class="username-box">
+                <input id="usernameInput" type="text" placeholder="Enter username">
+                <button id="setUsernameBtn">Set</button>
+                <div class="small-muted" id="usernameDisplay"></div>
+            </div>
+        </div>
+
+        <div class="messages" id="messages"></div>
+
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button id="sendBtn">Send</button>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:#9aa7c7;">Messages are stored locally on your browser (localStorage).</div>
+    </div>
+
     <script>
         // Password protection
         const correctPassword = "12345"; // change this if you want
@@ -250,6 +392,131 @@
 
         // Disable right-click
         document.addEventListener("contextmenu", event => event.preventDefault());
+
+        /***** Chat logic (client-side, localStorage only) *****/
+        const messagesEl = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const usernameInput = document.getElementById('usernameInput');
+        const setUsernameBtn = document.getElementById('setUsernameBtn');
+        const usernameDisplay = document.getElementById('usernameDisplay');
+
+        // storage keys
+        const LS_USER = 'miun_chat_username';
+        const LS_MSGS = 'miun_chat_messages'; // stores array of {u,t,m,id}
+
+        // load username and messages
+        function loadUsername() {
+            const u = localStorage.getItem(LS_USER) || '';
+            if (u) {
+                usernameDisplay.textContent = 'Signed as: ' + u;
+                usernameInput.value = '';
+            } else {
+                usernameDisplay.textContent = '';
+            }
+        }
+
+        function loadMessages() {
+            const raw = localStorage.getItem(LS_MSGS);
+            let arr = [];
+            try { arr = raw ? JSON.parse(raw) : []; } catch(e){ arr = []; }
+            renderMessages(arr);
+        }
+
+        function saveMessage(obj) {
+            const raw = localStorage.getItem(LS_MSGS);
+            let arr = [];
+            try { arr = raw ? JSON.parse(raw) : []; } catch(e){ arr = []; }
+            arr.push(obj);
+            // keep last 200 messages max
+            if (arr.length > 200) arr = arr.slice(arr.length - 200);
+            localStorage.setItem(LS_MSGS, JSON.stringify(arr));
+        }
+
+        function renderMessages(arr) {
+            messagesEl.innerHTML = '';
+            arr.forEach(msg => {
+                const node = createMessageNode(msg);
+                messagesEl.appendChild(node);
+            });
+            // scroll to bottom
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        function createMessageNode(msg) {
+            const wrap = document.createElement('div');
+            wrap.className = 'msg';
+            const avatar = document.createElement('div');
+            avatar.className = 'avatar';
+            avatar.textContent = (msg.u && msg.u[0]) ? msg.u[0].toUpperCase() : '?';
+
+            const content = document.createElement('div');
+            const meta = document.createElement('div');
+            meta.className = 'meta';
+            const ts = new Date(msg.t).toLocaleTimeString();
+            meta.textContent = `${msg.u} • ${ts}`;
+
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            bubble.textContent = msg.m;
+
+            content.appendChild(meta);
+            content.appendChild(bubble);
+
+            wrap.appendChild(avatar);
+            wrap.appendChild(content);
+            return wrap;
+        }
+
+        // set username
+        setUsernameBtn.addEventListener('click', () => {
+            const val = usernameInput.value.trim();
+            if (!val) {
+                alert('Please enter a username.');
+                return;
+            }
+            localStorage.setItem(LS_USER, val);
+            usernameDisplay.textContent = 'Signed as: ' + val;
+            usernameInput.value = '';
+        });
+
+        // send message
+        sendBtn.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (!text) return;
+            const user = localStorage.getItem(LS_USER) || 'Anonymous';
+            const msgObj = { u: user, t: Date.now(), m: text, id: Math.random().toString(36).slice(2,9) };
+            saveMessage(msgObj);
+            // re-render
+            loadMessages();
+            messageInput.value = '';
+        }
+
+        // init
+        loadUsername();
+        loadMessages();
+
+        // Optional: expose a function to clear messages (for dev)
+        window.__miun_clearChat = function(){
+            if (confirm('Clear all local messages?')) {
+                localStorage.removeItem(LS_MSGS);
+                loadMessages();
+            }
+        };
+
+        // If multiple tabs open, keep messages in sync via storage event
+        window.addEventListener('storage', (e) => {
+            if (e.key === LS_MSGS) {
+                loadMessages();
+            } else if (e.key === LS_USER) {
+                loadUsername();
+            }
+        });
     </script>
 
 </body>
