@@ -163,8 +163,8 @@
             <h2>Salasana:</h2>
             <input type="password" id="passwordInput" placeholder="Password">
             <br>
-            <button onclick="checkPassword()">Sivulle</button>
-            <div id="errorMsg">Väärä Salasanan. Nisti Yritä uusiks.</div>
+            <button onclick="checkPassword()">Login</button>
+            <div id="errorMsg">Incorrect password. Try again.</div>
         </div>
     </div>
 
@@ -183,7 +183,7 @@
 
     <!-- Crypto Chart Section -->
     <div class="crypto-section">
-        <div class="crypto-title">Crypto Osa</div>
+        <div class="crypto-title">📈 Bitcoin & Dogecoin Live Prices</div>
         <div class="chart-container">
             <!-- Bitcoin -->
             <div class="tradingview-widget-container">
