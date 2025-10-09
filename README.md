@@ -393,7 +393,7 @@
         // Disable right-click
         document.addEventListener("contextmenu", event => event.preventDefault());
 
-        /***** Chat logic (client-side, localStorage only) *****/
+        /***** Chat logic (client-side, localStorage with simulated multi-user) *****/
         const messagesEl = document.getElementById('messages');
         const messageInput = document.getElementById('messageInput');
         const sendBtn = document.getElementById('sendBtn');
@@ -404,6 +404,12 @@
         // storage keys
         const LS_USER = 'miun_chat_username';
         const LS_MSGS = 'miun_chat_messages'; // stores array of {u,t,m,id}
+
+        // Simulated messages from other users (for demo purposes)
+        const simulatedMessages = [
+            { u: "User1", t: Date.now() - 60000, m: "Hey, what's up?", id: Math.random().toString(36).slice(2,9) },
+            { u: "User2", t: Date.now() - 30000, m: "This chat is cool!", id: Math.random().toString(36).slice(2,9) }
+        ];
 
         // load username and messages
         function loadUsername() {
@@ -419,14 +425,16 @@
         function loadMessages() {
             const raw = localStorage.getItem(LS_MSGS);
             let arr = [];
-            try { arr = raw ? JSON.parse(raw) : []; } catch(e){ arr = []; }
+            try { arr = raw ? JSON.parse(raw) : []; } catch(e) { arr = []; }
+            // Combine local messages with simulated messages
+            arr = [...simulatedMessages, ...arr];
             renderMessages(arr);
         }
 
         function saveMessage(obj) {
             const raw = localStorage.getItem(LS_MSGS);
             let arr = [];
-            try { arr = raw ? JSON.parse(raw) : []; } catch(e){ arr = []; }
+            try { arr = raw ? JSON.parse(raw) : []; } catch(e) { arr = []; }
             arr.push(obj);
             // keep last 200 messages max
             if (arr.length > 200) arr = arr.slice(arr.length - 200);
