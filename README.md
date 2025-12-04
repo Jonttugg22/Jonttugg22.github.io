@@ -24,9 +24,7 @@
         .crypto-section {background:#0d0d0d;color:white;padding:30px;margin-top:30px;border-radius:10px}
         .crypto-title {text-align:center;font-size:24px;margin-bottom:20px;color:#f2a900}
 
-        .chat-section {
-            margin:30px auto;max-width:900px;background:#000;border:4px solid #39ff14;border-radius:12px;padding:20px;box-shadow:0 0 30px #39ff14;
-        }
+        .chat-section {margin:30px auto;max-width:900px;background:#000;border:4px solid #39ff14;border-radius:12px;padding:20px;box-shadow:0 0 30px #39ff14}
         .chat-header {text-align:center;font-size:36px;color:#39ff14;text-shadow:0 0 20px #39ff14;margin-bottom:8px;font-weight:bold}
         .lang-switch {text-align:center;margin-bottom:12px}
         .lang-switch button {padding:6px 16px;margin:0 6px;background:#000;color:#39ff14;border:2px solid #39ff14;border-radius:8px;cursor:pointer;font-weight:bold}
@@ -46,8 +44,7 @@
         <div id="loginBox">
             <h2>Salasana:</h2>
             <input type="password" id="passwordInput" placeholder="Password">
-            <br><br>
-            <button onclick="checkPassword()">Login</button>
+            <br><br><button onclick="checkPassword()">Login</button>
             <div id="errorMsg">Väärä salasana, mulkku.</div>
         </div>
     </div>
@@ -74,18 +71,17 @@
             <button id="fiBtn">Suomi</button>
         </div>
         <div class="chat-box" id="chatBox">
-            <div class="msg-ai">Ready to get absolutely destroyed, waste of oxygen?</div>
+            <div class="msg-ai">Speak, subhuman.</div>
         </div>
         <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Say something so I can roast you..." autocomplete="off">
+            <input type="text" id="userInput" placeholder="Say something so I can end you..." autocomplete="off">
             <button onclick="send()">SEND</button>
         </div>
-        <div class="disclaimer">100% unfiltered evil – now in two languages</div>
+        <div class="disclaimer">MAXIMUM OFFENSE • PURE HATRED • NO MERCY</div>
     </div>
 
     <script src="https://s3.tradingview.com/tv.js"></script>
     <script>
-        // === LOGIN (NOW FIXED) ===
         function checkPassword() {
             if (document.getElementById("passwordInput").value === "12345") {
                 document.getElementById("loginOverlay").style.display = "none";
@@ -95,25 +91,43 @@
             }
         }
 
-        // Charts
         new TradingView.widget({container_id:"tradingview_btc", width:"100%", height:500, symbol:"BITSTAMP:BTCUSD", interval:"1", theme:"dark"});
         new TradingView.widget({container_id:"tradingview_doge", width:"100%", height:500, symbol:"BINANCE:DOGEUSDT", interval:"1", theme:"dark"});
 
-        // InSaneAI
         const roasts = {
             en: [
-                "Your family tree is a wreath.",
-                "You’re the reason the gene pool needs a lifeguard.",
-                "Even your mirror hangs itself when you walk by.",
-                "Birth certificate = apology from the condom factory.",
-                "Skill issue + fatherless + L + ratio"
+                "Your family tree is a cactus because everybody on it is a prick.",
+                "Your bloodline is the reason bleach was invented.",
+                "Even the KKK thinks you’re too far gone.",
+                "Your ancestors were the free samples at the slave auction.",
+                "You’re the reason abortion should be retroactive.",
+                "Your family reunion is just a crime scene with potato salad.",
+                "You’re living proof cousins can fuck and still produce nothing of value.",
+                "Your DNA is why we can’t have nice things.",
+                "Your mom should’ve swallowed and your dad should’ve aimed for the wall.",
+                "You’re the reason aliens won’t visit.",
+                "Your birth certificate is an apology letter from a broken condom.",
+                "You’re the human equivalent of a burning dumpster.",
+                "Your existence is a war crime.",
+                "Your gene pool is a puddle of piss.",
+                "Even cockroaches cross the street when they see you."
             ],
             fi: [
-                "Sun suku on kranssi.",
-                "Sä oot syy miks geeniperimä tarvii pelastajan.",
-                "Peiliki tappaa ittensä ku sä kattoo sitä.",
-                "Syntymätodistus on Durexin anteeksipyyntö.",
-                "Taitovika + isätön käytös + häviö + ratio"
+                "Sun suku on kranssi ku kaikki on mulkkuja.",
+                "Sun veri on 99% Koskenkorvaa ja 1% pettymystä.",
+                "Sun äiti olis voinu niellä mut silti sä päädyit tänne.",
+                "Sun suku on pelkkää perunapeltoo ja raiskaussyytteitä.",
+                "Sä oot niin ruma että peiliin kattoo sua ja tekee itsemurhan.",
+                "Sun DNA on Suomen suurin häpeäpilkku.",
+                "Sä oot elävä todiste miks lapset pitäis adoptoida Venäjältä.",
+                "Sun naama näyttää siltä ku se ois jääny VR:n junan väliin.",
+                "Sä oot niin vitun hyödytön että edes somalit ei haluu sun paikkaa halua.",
+                "Sun isä veti väärään reikään ja silti sä synnyit.",
+                "Sun olemassaolo on loukkaus luonnonvalinnalle ja poroille.",
+                "Jos sä oisit hevonen sut ammuttais armosta.",
+                "Sun suvun vaakuna on peruna ja köysi.",
+                "Sä oot syy miks alkoholi loppuu aina kesken.",
+                "Sun naama on syy miks kasvomaskit keksittiin."
             ]
         };
 
@@ -122,14 +136,10 @@
         const input = document.getElementById("userInput");
 
         document.getElementById("enBtn").onclick = () => {
-            lang = "en";
-            document.getElementById("enBtn").classList.add("active");
-            document.getElementById("fiBtn").classList.remove("active");
+            lang = "en"; document.getElementById("enBtn").classList.add("active"); document.getElementById("fiBtn").classList.remove("active");
         };
         document.getElementById("fiBtn").onclick = () => {
-            lang = "fi";
-            document.getElementById("fiBtn").classList.add("active");
-            document.getElementById("enBtn").classList.remove("active");
+            lang = "fi"; document.getElementById("fiBtn").classList.add("active"); document.getElementById("enBtn").classList.remove("active");
         };
 
         function add(t, type) {
@@ -145,8 +155,9 @@
             if (!m) return;
             add(m, "user");
             setTimeout(() => {
-                add(roasts[lang][Math.floor(Math.random() * roasts[lang].length)], "ai");
-            }, 700 + Math.random() * 800);
+                const roast = roasts[lang][Math.floor(Math.random() * roasts[lang].length)];
+                add(roast, "ai");
+            }, 700 + Math.random() * 900);
             input.value = "";
         }
 
