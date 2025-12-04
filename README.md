@@ -9,43 +9,15 @@
         header {background:#b22a2a;color:#fff;text-align:center;padding:20px;box-shadow:0 4px 10px rgba(0,0,0,.2)}
         h1 {margin:0;animation:slideDown 1s}@keyframes slideDown {from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
 
-        /* UPDATE LOG */
         .update-log {
-            max-width:900px;
-            margin:20px auto;
-            background:#111;
-            border:2px solid #39ff14;
-            border-radius:10px;
-            padding:15px;
-            color:#39ff14;
+            max-width:900px;margin:20px auto;background:#111;border:2px solid #39ff14;border-radius:10px;padding:15px;color:#39ff14;
             box-shadow:0 0 20px #39ff14;
         }
-        .update-log h3 {
-            margin:0 0 10px 0;
-            text-align:center;
-            font-size:24px;
-            text-shadow:0 0 10px #39ff14;
-        }
-        .update-log ul {
-            margin:0;
-            padding-left:20px;
-            list-style:none;
-        }
-        .update-log li {
-            margin:8px 0;
-            padding-left:25px;
-            position:relative;
-        }
-        .update-log li::before {
-            content:"▸";
-            color:#39ff14;
-            position:absolute;
-            left:0;
-        }
-        .update-log .date {
-            color:#888;
-            font-size:14px;
-        }
+        .update-log h3 {margin:0 0 10px;text-align:center;font-size:24px;text-shadow:0 0 10px #39ff14}
+        .update-log ul {margin:0;padding-left:20px;list-style:none}
+        .update-log li {margin:8px 0;padding-left:25px;position:relative}
+        .update-log li::before {content:"▸";color:#39ff14;position:absolute;left:0}
+        .update-log .date {color:#888;font-size:14px}
 
         .content {max-width:900px;margin:30px auto;background:#fff;padding:25px;border-radius:8px;box-shadow:0 0 20px rgba(0,0,0,.1);animation:popUp 1s}
         @keyframes popUp {from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
@@ -55,7 +27,7 @@
         a:hover {color:#388E3C;text-decoration:underline}
 
         #loginOverlay {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);display:flex;justify-content:center;align-items:center;z-index:9999}
-        #loginBox {background:white;padding:30px 40px;border-radius:12px;text-align:center;box-shadow:0 0 0 20px rgba(0,0,0,.5)}
+        #loginBox {background:white;padding:30px 40px;border-radius:12px;text-align:center;box-shadow:0 0 20px rgba(0,0,0,.5)}
         #loginBox input {padding:10px;width:200px;border:1px solid #ccc;border-radius:8px;margin-top:10px;font-size:16px}
         #loginBox button {margin-top:15px;padding:10px 20px;background:#4CAF50;color:white;border:none;border-radius:8px;cursor:pointer;font-size:16px}
         #errorMsg {color:red;margin-top:10px;display:none}
@@ -93,32 +65,31 @@
         <h1>Miun netti sivu Vittuu</h1>
     </header>
 
-    <!-- UPDATE LOG (newest on top) -->
     <div class="update-log">
         <h3>Update Log</h3>
         <ul>
-            <li><strong>04.12.2025</strong> <span class="date">– today</span><br>Added this update log + more racist roasts</li>
-            <li><strong>03.12.2025</strong><br>Added stupid dancing Patrick GIF at the top</li>
-            <li><strong>02.12.2025</strong><br>InSaneAI now speaks Finnish too (super offensive)</li>
-            <li><strong>30.11.2025</strong><br>Switched to neon-green theme because red was gay</li>
-            <li><strong>28.11.2025</strong><br>Added InSaneAI – the most toxic AI on the internet</li>
-            <li><strong>25.11.2025</strong><br>Dogecoin chart + password protection (12345)</li>
-            <li><strong>20.11.2025</strong><br>Site created – was bored as fuck</li>
+            <li><strong>04.12.2025</strong> – Fixed login (again lol) + more roasts</li>
+            <li><strong>04.12.2025</strong> – Added update log</li>
+            <li><strong>03.12.2025</strong> – Added stupid dancing Patrick GIF</li>
+            <li><strong>02.12.2025</strong> – InSaneAI now speaks Finnish</li>
+            <li><strong>30.11.2025</strong> – Neon-green theme</li>
+            <li><strong>28.11.2025</strong> – InSaneAI launched</li>
+            <li><strong>25.11.2025</strong> – Password + Dogecoin chart</li>
+            <li><strong>20.11.2025</strong> – Site created</li>
         </ul>
     </div>
 
     <div class="content">
         <h2>Tää on mun joku random ahh nettisivu EI OLE VIIRUS!!</h2>
         <p>Tein tän Sivun koska oli tylsää tääl on jotain asioita updattaan tätä kun jaksan.</p>
-        <img src="https://th.bing.com/th/id/R.4a3971f208eb35707c7681404889fd47?rik=lq7zxOYVFC7IBA&riu=http%3a%2f%2fimages6.fanpop.com%2fimage%2fphotos%2f39100000%2fPatrick-Star-patrick-star-spongebob-39145544-500-691.jpg" alt="Patrick Star">
+        <img src="https://th.bing.com/th/id/R.4a3971f208eb35707c7681404889fd47?rik=lq7zxOYVFC7IBA&riu=http%3a%2f%2fimages6.fanpop.com%2fimage%2fphotos%2f39100000%2fPatrick-Star-patrick-star-spongebob-39145544-500-691.jpg" alt="Patrick">
         <p>Go on to <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" target="_blank">SezyGirlPics</a> for more.</p>
     </div>
 
-    <!-- rest of your page (crypto + InSaneAI) unchanged -->
     <div class="crypto-section">
         <div class="crypto-title">Bitcoin & Dogecoin Live Prices</div>
-        <div class="tradingview-widget-container"><div id="tradingview_btc"></div></div>
-        <div class="tradingview-widget-container" style="margin-top:40px"><div id="tradingview_doge"></div></div>
+        <div id="tradingview_btc"></div>
+        <div style="margin-top:40px" id="tradingview_doge"></div>
     </div>
 
     <div class="chat-section">
@@ -139,6 +110,7 @@
 
     <script src="https://s3.tradingview.com/tv.js"></script>
     <script>
+        // LOGIN FIXED
         function checkPassword() {
             if (document.getElementById("passwordInput").value === "12345") {
                 document.getElementById("loginOverlay").style.display = "none";
@@ -148,12 +120,15 @@
             }
         }
 
+        // Charts
         new TradingView.widget({container_id:"tradingview_btc", width:"100%", height:500, symbol:"BITSTAMP:BTCUSD", interval:"1", theme:"dark"});
         new TradingView.widget({container_id:"tradingview_doge", width:"100%", height:500, symbol:"BINANCE:DOGEUSDT", interval:"1", theme:"dark"});
 
-        );
-
-        const roasts = { /* same ultra-offensive lists from before */ };
+        // ROASTS (same ultra-offensive ones)
+        const roasts = {
+            en: ["Your family tree is a cactus because everybody on it is a prick.","Your bloodline is the reason bleach was invented.","Even the KKK thinks you’re too far gone.", /* etc */],
+            fi: ["Sun suku on kranssi ku kaikki on mulkkuja.","Sun veri on 99% Koskenkorvaa ja 1% pettymystä.", /* etc */]
+        };
 
         let lang = "en";
         const chat = document.getElementById("chatBox");
