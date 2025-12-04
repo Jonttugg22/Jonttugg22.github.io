@@ -49,7 +49,10 @@
         </div>
     </div>
 
-    <header><h1>Miun netti sivu Vittuu</h1></header>
+    <header>
+        <img src="https://media.tenor.com/CgM8PYqJMucAAAAM/dumb-patrick.gif" alt="Dumb Patrick GIF" style="width:200px; height:auto; border-radius:50%; display:block; margin:0 auto 10px; box-shadow:0 0 20px rgba(255,255,0,0.5);">
+        <h1>Miun netti sivu Vittuu</h1>
+    </header>
 
     <div class="content">
         <h2>Tää on mun joku random ahh nettisivu EI OLE VIIRUS!!</h2>
@@ -121,7 +124,7 @@
                 "Sun DNA on Suomen suurin häpeäpilkku.",
                 "Sä oot elävä todiste miks lapset pitäis adoptoida Venäjältä.",
                 "Sun naama näyttää siltä ku se ois jääny VR:n junan väliin.",
-                "Sä oot niin vitun hyödytön että edes somalit ei haluu sun paikkaa halua.",
+                "Sä oot niin vitun hyödytön että edes somalit ei haluu sun paikkaa.",
                 "Sun isä veti väärään reikään ja silti sä synnyit.",
                 "Sun olemassaolo on loukkaus luonnonvalinnalle ja poroille.",
                 "Jos sä oisit hevonen sut ammuttais armosta.",
