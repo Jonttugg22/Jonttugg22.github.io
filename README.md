@@ -1,162 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fi">
 <head>
     <meta charset="UTF-8">
-    <title>Miun nettisivu</title>
+    <title>Miun Sivusto</title>
     <style>
-        body {font-family:Arial,sans-serif;margin:0;padding:0;background:#000;animation:fadeIn 2s}
-        @keyframes fadeIn {from{opacity:0}to{opacity:1}}
-        header {background:#b22a2a;color:#fff;text-align:center;padding:20px;box-shadow:0 4px 10px rgba(0,0,0,.2)}
-        h1 {margin:0;animation:slideDown 1s}@keyframes slideDown {from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#000;color:#fff;font-family:Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+        
+        /* Login screen */
+        #loginScreen{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999}
+        #loginScreen h1{color:#39ff14;font-size:50px;margin-bottom:30px;text-shadow:0 0 20px #39ff14}
+        #loginScreen input{padding:15px;width:300px;font-size:20px;border:3px solid #39ff14;background:#000;color:#39ff14;border-radius:10px;text-align:center}
+        #loginScreen button{margin-top:20px;padding:15px 40px;background:#39ff14;color:#000;font-weight:bold;border:none;border-radius:10px;cursor:pointer;font-size:18px}
+        #thanksMsg{color:#39ff14;font-size:60px;font-weight:bold;text-shadow:0 0 30px #39ff14;display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10000}
 
-        .update-log {
-            max-width:900px;margin:20px auto;background:#111;border:2px solid #39ff14;border-radius:10px;padding:15px;color:#39ff14;
-            box-shadow:0 0 20px #39ff14;
-        }
-        .update-log h3 {margin:0 0 10px;text-align:center;font-size:24px;text-shadow:0 0 10px #39ff14}
-        .update-log ul {margin:0;padding-left:20px;list-style:none}
-        .update-log li {margin:8px 0;padding-left:25px;position:relative}
-        .update-log li::before {content:"▸";color:#39ff14;position:absolute;left:0}
-        .update-log .date {color:#888;font-size:14px}
+        /* Main layout */
+        header{background:#b22a2a;padding:20px;text-align:center}
+        header img{width:180px;border-radius:50%;box-shadow:0 0 30px #ffff00}
+        header h1{color:#fff;margin-top:10px}
 
-        .content {max-width:900px;margin:30px auto;background:#fff;padding:25px;border-radius:8px;box-shadow:0 0 20px rgba(0,0,0,.1);animation:popUp 1s}
-        @keyframes popUp {from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
-        img {width:180px;border-radius:10px;margin:15px auto;display:block;transition:.3s}
-        img:hover {transform:scale(1.05);box-shadow:0 10px 20px rgba(0,0,0,.2)}
-        a {color:#4CAF50;text-decoration:none;font-weight:bold}
-        a:hover {color:#388E3C;text-decoration:underline}
+        .container{display:flex;flex:1;max-width:1400px;margin:0 auto;width:100%}
+        
+        /* Sidebar */
+        aside{width:250px;background:#111;border-right:4px solid #39ff14;padding:20px;position:sticky;top:0;height:100vh;overflow-y:auto}
+        aside h2{color:#39ff14;text-align:center;margin-bottom:20px;text-shadow:0 0 15px}
+        aside ul{list-style:none}
+        aside li{margin:15px 0}
+        aside button{width:100%;padding:15px;background:#000;color:#39ff14;border:2px solid #39ff14;border-radius:10px;cursor:pointer;font-size:16px;font-weight:bold}
+        aside button:hover, aside button.active{background:#39ff14;color:#000}
 
-        #loginOverlay {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);display:flex;justify-content:center;align-items:center;z-index:9999}
-        #loginBox {background:white;padding:30px 40px;border-radius:12px;text-align:center;box-shadow:0 0 20px rgba(0,0,0,.5)}
-        #loginBox input {padding:10px;width:200px;border:1px solid #ccc;border-radius:8px;margin-top:10px;font-size:16px}
-        #loginBox button {margin-top:15px;padding:10px 20px;background:#4CAF50;color:white;border:none;border-radius:8px;cursor:pointer;font-size:16px}
-        #errorMsg {color:red;margin-top:10px;display:none}
+        /* Main content */
+        main{flex:1;padding:30px;background:#000;color:#fff}
+        .section{display:none}
+        .section.active{display:block}
+        h2{color:#39ff14;text-align:center;margin-bottom:20px;text-shadow:0 0 15px}
 
-        .crypto-section {background:#0d0d0d;color:white;padding:30px;margin-top:30px;border-radius:10px}
-        .crypto-title {text-align:center;font-size:24px;margin-bottom:20px;color:#f2a900}
+        .crypto-section text-align:center
+        .tradingview-widget-container{height:500px;margin:20px 0}
 
-        .chat-section {margin:30px auto;max-width:900px;background:#000;border:4px solid #39ff14;border-radius:12px;padding:20px;box-shadow:0 0 30px #39ff14}
-        .chat-header {text-align:center;font-size:36px;color:#39ff14;text-shadow:0 0 20px #39ff14;margin-bottom:8px;font-weight:bold}
-        .lang-switch {text-align:center;margin-bottom:12px}
-        .lang-switch button {padding:6px 16px;margin:0 6px;background:#000;color:#39ff14;border:2px solid #39ff14;border-radius:8px;cursor:pointer;font-weight:bold}
-        .lang-switch button.active {background:#39ff14;color:#000}
-        .chat-box {height:420px;background:#111;border:2px solid #39ff14;border-radius:10px;padding:15px;overflow-y:auto;color:#fff;margin-bottom:15px;font-family:monospace}
-        .msg-user {color:#87CEFA;margin:10px 0}
-        .msg-ai {color:#39ff14;margin:10px 0;font-weight:bold;text-shadow:0 0 10px #39ff14}
-        .chat-input {display:flex;gap:10px}
-        .chat-input input {flex:1;padding:14px;border-radius:8px;border:2px solid #39ff14;background:#000;color:#39ff14;font-size:16px}
-        .chat-input button {padding:14px 30px;background:#39ff14;color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:bold;font-size:16px}
-        .disclaimer {text-align:center;color:#39ff14;font-size:13px;margin-top:10px}
+        .chat-box{height:500px;background:#111;border:3px solid #39ff14;border-radius:10px;padding:15px;overflow-y:auto;margin-bottom:15px;font-family:monospace}
+        .msg-user{color:#87CEFA;margin:10px 0}
+        .msg-ai{color:#39ff14;margin:10px 0;font-weight:bold;text-shadow:0 0 10px #39ff14}
+        .chat-input{display:flex;gap:10px}
+        .chat-input input{flex:1;padding:14px;background:#000;color:#39ff14;border:2px solid #39ff14;border-radius:8px}
+        .chat-input button{padding:14px 30px;background:#39ff14;color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:bold}
     </style>
 </head>
 <body>
 
-    <div id="loginOverlay">
-        <div id="loginBox">
-            <h2>Salasana:</h2>
-            <input type="password" id="passwordInput" placeholder="Password">
-            <br><br><button onclick="checkPassword()">Login</button>
-            <div id="errorMsg">Väärä salasana, mulkku.</div>
-        </div>
+    <!-- Login Screen -->
+    <div id="loginScreen">
+        <h1>Anna salasana, idiootti</h1>
+        <input type="password" id="passInput" placeholder="Password">
+        <button onclick="tryLogin()">Kirjaudu</button>
     </div>
+    <div id="thanksMsg">KIITOS IDIOOTTI</div>
 
-    <header>
-        <img src="https://media.tenor.com/CgM8PYqJMucAAAAM/dumb-patrick.gif" alt="Dumb Patrick" style="width:200px;height:auto;border-radius:50%;display:block;margin:0 auto 10px;box-shadow:0 0 20px #ffff00;">
-        <h1>Miun netti sivu Vittuu</h1>
-    </header>
+    <!-- Real site (hidden until login) -->
+    <div id="mainSite" style="display:none">
+        <header>
+            <img src="https://media.tenor.com/CgM8PYqJMucAAAAM/dumb-patrick.gif" alt="Dumb Patrick">
+            <h1>Miun netti sivu Vittuu</h1>
+        </header>
 
-    <div class="update-log">
-        <h3>Update Log</h3>
-        <ul>
-            <li><strong>04.12.2025</strong> – Fixed login (again lol) + more roasts</li>
-            <li><strong>04.12.2025</strong> – Added update log</li>
-            <li><strong>03.12.2025</strong> – Added stupid dancing Patrick GIF</li>
-            <li><strong>02.12.2025</strong> – InSaneAI now speaks Finnish</li>
-            <li><strong>30.11.2025</strong> – Neon-green theme</li>
-            <li><strong>28.11.2025</strong> – InSaneAI launched</li>
-            <li><strong>25.11.2025</strong> – Password + Dogecoin chart</li>
-            <li><strong>20.11.2025</strong> – Site created</li>
-        </ul>
-    </div>
+        <div class="container">
+            <!-- Sidebar -->
+            <aside>
+                <h2>Valikko</h2>
+                <ul>
+                    <li><button class="active" onclick="show('crypto')">Crypto</button></li>
+                    <li><button onclick="show('ai')">InSaneAI</button></li>
+                    <li><button onclick="show('games')">Pelit (tulossa)</button></li>
+                    <li><button onclick="show('updates')">Update Log</button></li>
+                    <li><button onclick="show('info')">Tietoa sivusta</button></li>
+                </ul>
+            </aside>
 
-    <div class="content">
-        <h2>Tää on mun joku random ahh nettisivu EI OLE VIIRUS!!</h2>
-        <p>Tein tän Sivun koska oli tylsää tääl on jotain asioita updattaan tätä kun jaksan.</p>
-        <img src="https://th.bing.com/th/id/R.4a3971f208eb35707c7681404889fd47?rik=lq7zxOYVFC7IBA&riu=http%3a%2f%2fimages6.fanpop.com%2fimage%2fphotos%2f39100000%2fPatrick-Star-patrick-star-spongebob-39145544-500-691.jpg" alt="Patrick">
-        <p>Go on to <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" target="_blank">SezyGirlPics</a> for more.</p>
-    </div>
+            <!-- Main content -->
+            <main>
+                <!-- Crypto -->
+                <div id="crypto" class="section active">
+                    <h2>Bitcoin & Dogecoin Livenä</h2>
+                    <div class="tradingview-widget-container"><div id="tradingview_btc"></div></div>
+                    <div class="tradingview-widget-container"><div id="tradingview_doge"></div></div>
+                </div>
 
-    <div class="crypto-section">
-        <div class="crypto-title">Bitcoin & Dogecoin Live Prices</div>
-        <div id="tradingview_btc"></div>
-        <div style="margin-top:40px" id="tradingview_doge"></div>
-    </div>
+                <!-- InSaneAI -->
+                <div id="ai" class="section">
+                    <h2>InSaneAI – Maailman vitun toksisin AI</h2>
+                    <div class="chat-box" id="chatBox"><div class="msg-ai">No mitäs sä nyt meet sanomaan, idiootti?</div></div>
+                    <div class="chat-input">
+                        <input type="text" id="userInput" placeholder="Kirjoita jotain ni haukun">
+                        <button onclick="send()">LÄHETÄ</button>
+                    </div>
+                </div>
 
-    <div class="chat-section">
-        <div class="chat-header">InSaneAI</div>
-        <div class="lang-switch">
-            <button id="enBtn" class="active">English</button>
-            <button id="fiBtn">Suomi</button>
+                <!-- Games (placeholder) -->
+                <div id="games" class="section">
+                    <h2>Pelit</h2>
+                    <p>Tulossa... ehkä joskus. Nyt voit vaan kattoo Patrickia.</p>
+                </div>
+
+                <!-- Update Log -->
+                <div id="updates" class="section">
+                    <h2>Update Log</h2>
+                    <ul style="list-style:none;padding-left:10px">
+                        <li><strong>05.12.2025</strong> – Uusi layout + salasana 6947 + KIITOS IDIOOTTI</li>
+                        <li><strong>04.12.2025</strong> – Lisätty update log</li>
+                        <li><strong>03.12.2025</strong> – Tyhmä tanssiva Patrick</li>
+                        <li><strong>02.12.2025</strong> – InSaneAI puhuu suomee</li>
+                        <li><strong>28.11.2025</strong> – InSaneAI syntyi</li>
+                        <li><strong>20.11.2025</strong> – Sivusto luotu koska oli tylsää</li>
+                    </ul>
+                </div>
+
+                <!-- Info -->
+                <div id="info" class="section">
+                    <h2>Tietoa sivusta</h2>
+                    <p>Tää on mun random sivusto joka on tehty kun oli tylsää. Täällä on kryptoo, maailman toksisin AI, tanssiva Patrick ja muuta hömppää.</p>
+                    <p>Ei oo virus. Lupaan.</p>
+                    <p style="margin-top:30px;color:#39ff14">Made with hate & boredom © 2025</p>
+                </div>
+            </main>
         </div>
-        <div class="chat-box" id="chatBox">
-            <div class="msg-ai">Speak, subhuman.</div>
-        </div>
-        <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Say something so I can end you..." autocomplete="off">
-            <button onclick="send()">SEND</button>
-        </div>
-        <div class="disclaimer">MAXIMUM OFFENSE • PURE HATRED • NO MERCY</div>
     </div>
 
     <script src="https://s3.tradingview.com/tv.js"></script>
     <script>
-        // LOGIN FIXED
-        function checkPassword() {
-            if (document.getElementById("passwordInput").value === "6947") {
-                document.getElementById("loginOverlay").style.display = "none";
-                setTimeout(() => alert("Niga boyyyyy!"), 800);
+        // Login
+        function tryLogin(){
+            if(document.getElementById("passInput").value === "6947"){
+                document.getElementById("loginScreen").style.display = "none";
+                document.getElementById("thanksMsg").style.display = "block";
+                setTimeout(()=>{
+                    document.getElementById("thanksMsg").style.display = "none";
+                    document.getElementById("mainSite").style.display = "block";
+                }, 2000);
             } else {
-                document.getElementById("errorMsg").style.display = "block";
+                alert("Väärä salasana, idiootti");
             }
+        }
+        document.getElementById("passInput").addEventListener("keypress", e => {if(e.key==="Enter") tryLogin()});
+
+        // Sidebar navigation
+        function show(section){
+            document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+            document.getElementById(section).classList.add("active");
+            document.querySelectorAll("aside button").forEach(b => b.classList.remove("active"));
+            event.target.classList.add("active");
         }
 
         // Charts
         new TradingView.widget({container_id:"tradingview_btc", width:"100%", height:500, symbol:"BITSTAMP:BTCUSD", interval:"1", theme:"dark"});
         new TradingView.widget({container_id:"tradingview_doge", width:"100%", height:500, symbol:"BINANCE:DOGEUSDT", interval:"1", theme:"dark"});
 
-        // ROASTS (same ultra-offensive ones)
-        const roasts = {
-            en: ["Your family tree is a cactus because everybody on it is a prick.","Your bloodline is the reason bleach was invented.","Even the KKK thinks you’re too far gone.", /* etc */],
-            fi: ["Sun suku on kranssi ku kaikki on mulkkuja.","Sun veri on 99% Koskenkorvaa ja 1% pettymystä.", /* etc */]
-        };
+        // InSaneAI roasts (Finnish only now, even meaner)
+        const roasts = [
+            "Sun suku on kranssi ku kaikki on mulkkuja.",
+            "Sä oot niin ruma että peiliin kattoo sua ja tekee itsemurhan.",
+            "Sun äiti olis voinu niellä mut silti sä päädyit tänne.",
+            "Sä oot syy miks alkoholi loppuu aina kesken.",
+            "Sun DNA on Suomen suurin häpeäpilkku.",
+            "Jos sä oisit hevonen sut ammuttais armosta.",
+            "Sä oot niin vitun hyödytön että edes somalit ei haluu sun paikkaa.",
+            "Sun naama näyttää siltä ku se ois jääny VR:n junan väliin.",
+            "Sun olemassaolo on loukkaus luonnonvalinnalle.",
+            "Kiitos kun tulit pilaamaan mun päivän."
+        ];
 
-        let lang = "en";
         const chat = document.getElementById("chatBox");
         const input = document.getElementById("userInput");
 
-        document.getElementById("enBtn").onclick = () => { lang="en"; document.getElementById("enBtn").classList.add("active"); document.getElementById("fiBtn").classList.remove("active"); };
-        document.getElementById("fiBtn").onclick = () => { lang="fi"; document.getElementById("fiBtn").classList.add("active"); document.getElementById("enBtn").classList.remove("active"); };
-
-        function add(t, type) {
+        function add(t, type){
             const d = document.createElement("div");
-            d.className = type === "user" ? "msg-user" : "msg-ai";
-            d.textContent = type === "user" ? "You: " + t : "InSaneAI: " + t;
+            d.className = type==="user" ? "msg-user" : "msg-ai";
+            d.textContent = type==="user" ? "Sä: " + t : "InSaneAI: " + t;
             chat.appendChild(d);
             chat.scrollTop = chat.scrollHeight;
         }
 
-        function send() {
+        function send(){
             const m = input.value.trim();
-            if (!m) return;
+            if(!m) return;
             add(m, "user");
-            setTimeout(() => {
-                const roast = roasts[lang][Math.floor(Math.random() * roasts[lang].length)];
-                add(roast, "ai");
-            }, 700 + Math.random() * 900);
+            setTimeout(()=>{
+                add(roasts[Math.floor(Math.random()*roasts.length)], "ai");
+            }, 800 + Math.random()*1000);
             input.value = "";
         }
 
-        input.addEventListener("keypress", e => { if (e.key === "Enter") send(); });
+        input.addEventListener("keypress", e=>{if(e.key==="Enter") send()});
     </script>
 </body>
 </html>
