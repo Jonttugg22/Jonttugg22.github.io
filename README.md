@@ -112,7 +112,7 @@
     <script>
         // LOGIN FIXED
         function checkPassword() {
-            if (document.getElementById("passwordInput").value === "12345") {
+            if (document.getElementById("passwordInput").value === "6947") {
                 document.getElementById("loginOverlay").style.display = "none";
                 setTimeout(() => alert("Niga boyyyyy!"), 800);
             } else {
